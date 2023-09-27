@@ -22,6 +22,9 @@ namespace api.Models
         public DateTime? ScheduleAt { get; set; }
         public DateTime? FinishedAt { get; set; }
 
+        [ForeignKey("UserId")] public Guid UserId { get; set; }
+        public User User { get; set; }
+
         // public Todo() {
         //     CreatedAt = DateTime.Now.ToUniversalTime();
         // }
