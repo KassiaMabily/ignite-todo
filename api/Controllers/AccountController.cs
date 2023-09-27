@@ -1,6 +1,7 @@
 using api.Data;
 using api.Extensions;
 using api.Models;
+using api.Services;
 using api.ViewModels;
 using api.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace api.Controllers;
 [Route("[controller]")]
 public class AccountController : ControllerBase
 {
-    [HttpPost("")]
+    [HttpPost("sign-up")]
     public async Task<IActionResult> Post(
         [FromBody] RegisterViewModel model,
         [FromServices] AppDbContext context)
@@ -50,5 +51,36 @@ public class AccountController : ControllerBase
         }
 
         return Ok();
+    }
+
+    [HttpPost("sign-in")]
+    public async Task<IActionResult> SignIn(
+        [FromBody] LoginViewModel model,
+        [FromServices] AppDbContext context,
+        [FromServices] TokenService tokenService)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
+
+        var user = await context
+            .Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email == model.Email);
+
+        if (user == null)
+            return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
+
+        if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
+            return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
+
+        try
+        {
+            var token = tokenService.GenerateToken(user);
+            return Ok(new ResultViewModel<string>(token, null));
+        }
+        catch
+        {
+            return StatusCode(500, new ResultViewModel<string>("05X04 - Falha interna no servidor"));
+        }
     }
 }
