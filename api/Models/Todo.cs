@@ -14,7 +14,7 @@ namespace api.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         [Required]
-        public int Title { get; set; }
+        public string Title { get; set; }
         [DefaultValue(false)]
         public bool Done { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
