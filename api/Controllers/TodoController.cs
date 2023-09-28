@@ -48,7 +48,7 @@ public class TodoController : ControllerBase
     }
 
     [Authorize]
-    [HttpPut("{id:guid}/finish")]
+    [HttpPut("{id:guid}/toggle-finish")]
     public async Task<IActionResult> ToogleFinishTodo(
         [FromRoute] Guid id,
         [FromServices] AppDbContext context)
