@@ -15,8 +15,9 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
 }) {
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -31,7 +32,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          { children }
         </ThemeProvider>
         <Toaster />
       </body>
