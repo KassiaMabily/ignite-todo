@@ -50,7 +50,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
             const response = await api.post("account/sign-up", { email: email, name: email })
 
             setCookie(null, process.env.NEXT_PUBLIC_TOKEN as string, response.data.data.token, {
-                maxAge: 60 * 8, // 8 hours
+                maxAge: 60 * 60 * 8, // 8 hours
                 path: '/',
             })
 

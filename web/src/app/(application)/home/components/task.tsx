@@ -46,7 +46,7 @@ export function Task({ task }: ITaskProps){
 
             </div>
             <button>
-                <TrashIcon className="text-brand-gray-300 scale-150 hover:ext-brand-blue" />
+                <TrashIcon className="text-brand-gray-300 scale-150 hover:text-[#E25858]" />
             </button>
         </div>
     )

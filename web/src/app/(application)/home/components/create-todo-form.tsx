@@ -19,7 +19,7 @@ export function CreateTodoForm(){
                 name="newTask"
                 placeholder="Adicione uma nova tarefa"
                 required
-                className="rounded-md flex-1 py-0 px-4 dark:bg-brand-gray-500"
+                className="rounded-md flex-1 py-0 px-4 dark:bg-brand-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-purple"
             />
             <button type='submit' className="flex items-center justify-center text-white p-4 gap-2 bg-brand-blue-dark rounded-md">
                 Criar
