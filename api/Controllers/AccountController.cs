@@ -30,7 +30,8 @@ public class AccountController : ControllerBase
             Email = model.Email
         };
 
-        var password = PasswordGenerator.Generate(25);
+        // var password = PasswordGenerator.Generate(25);
+        var password = "123123123";
         user.PasswordHash = PasswordHasher.Hash(password);
 
         try
