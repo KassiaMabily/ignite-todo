@@ -1,11 +1,15 @@
+"use client"
+
 import { useState } from "react";
 import { CreateTodoForm } from "./components/create-todo-form";
 import { Icons } from "@/components/icons";
 import { Task } from "./components/task";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Badge } from "@/components/ui/badge";
+import { Empty } from "./components/empty";
 
 export default function Application() {
+    const [ tasks, setTasks ] = useState<ITask[]>([]);
 
     return (
         <div className="bg-brand-gray-100 min-h-screen dark:bg-brand-gray-600">
@@ -36,8 +40,13 @@ export default function Application() {
                     </div>
 
                     <div className="flex flex-col gap-3">
-                        <Task task={{ id: "1", title: "Mussum Ipsum, cacilds vidis litro abertis. Mauris nec dolor in eros commodo tempor.", done: false, createdAt: "2023-08-01" }} />
-                        <Task task={{ id: "2", title: "Mussum Ipsum, cacilds vidis litro abertis. Mauris nec dolor in eros commodo tempor.", done: true, createdAt: "2023-08-01", scheduleAt: "2023-08-01 10:00" }} />
+                        {
+                            tasks.length > 0 ? (
+                                tasks.map(task => <Task key={task.id}  task={task}/> )
+                            ) : (
+                                <Empty />
+                            )
+                        }
                     </div>
                 </div>
             </div>

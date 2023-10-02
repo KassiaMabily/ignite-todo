@@ -1,7 +1,13 @@
+"use client"
+
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { PlusCircledIcon } from "@radix-ui/react-icons";
+import { AxiosError } from "axios";
+import { getErrors } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import api from "@/lib/axios";
 
 const CreateTodoFormSchema = z.object({
     title: z.string().email({message: "E-mail inválido!"}),
@@ -11,15 +17,47 @@ const CreateTodoFormSchema = z.object({
 type CreateTodoFormInputs = z.infer<typeof CreateTodoFormSchema>
 
 export function CreateTodoForm(){
+    const { toast } = useToast();
+
+    const {
+        handleSubmit,
+        register,
+        reset,
+        formState: { isSubmitting: isLoading, errors },
+    } = useForm<CreateTodoFormInputs>({
+        resolver: zodResolver(CreateTodoFormSchema)
+    });
+
+    async function handleCreateTodoFormSubmit(data: CreateTodoFormInputs) {
+        const { title } = data;
+
+        try {
+            const { data } = await api.post("/todo", {
+                "title": title,
+                "done": false
+            })
+
+            reset();
+        } catch (error) {
+            const errs = getErrors(error as AxiosError)
+
+            errs.forEach(err => {
+                toast({
+                    variant: "destructive",
+                    title: err,
+                })
+            });
+        }
+    }
 
     return (
-        <form className="w-full h-14 flex gap-2">
+        <form className="w-full h-14 flex gap-2" onSubmit={handleSubmit(handleCreateTodoFormSubmit)}>
             <input
                 type="text"
-                name="newTask"
                 placeholder="Adicione uma nova tarefa"
                 required
                 className="rounded-md flex-1 py-0 px-4 dark:bg-brand-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-purple"
+                {...register("title")}
             />
             <button type='submit' className="flex items-center justify-center text-white p-4 gap-2 bg-brand-blue-dark rounded-md">
                 Criar
