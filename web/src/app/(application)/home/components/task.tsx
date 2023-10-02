@@ -1,12 +1,20 @@
 import { Toggle } from "@/components/ui/toggle";
+import { useToast } from "@/components/ui/use-toast";
+import api from "@/lib/axios";
+import { getErrors } from "@/lib/utils";
 import { CheckIcon, TrashIcon } from "@radix-ui/react-icons";
+import { AxiosError } from "axios";
 import classNames from "classnames";
+import { Dispatch, SetStateAction } from "react";
 
 interface ITaskProps {
     task: ITask
+    removeTask: (id: string) => void
+    toggleTask: (id: string) => void
 }
 
-export function Task({ task }: ITaskProps){
+export function Task({ task, removeTask, toggleTask}: ITaskProps){
+
     return (
         <div className={classNames(
             "flex items-start justify-between flex-1 rounded-md gap-3 p-4 bg-brand-gray-200/40 dark:bg-brand-gray-400", {
@@ -14,7 +22,11 @@ export function Task({ task }: ITaskProps){
                 "border bg-brand-gray-200/30 dark:bg-brand-gray-500": task.done
             }
         )}>
-            <Toggle variant="outline" data-state={task.done && "on"}>
+            <Toggle
+                variant="outline"
+                data-state={task.done && "on"}
+                onPressedChange={() => toggleTask(task.id)}
+            >
                 {
                     task.done && <CheckIcon className="h-4 w-4 text-white" />
                 }
@@ -46,7 +58,7 @@ export function Task({ task }: ITaskProps){
 
             </div>
             <button>
-                <TrashIcon className="text-brand-gray-300 scale-150 hover:text-[#E25858]" />
+                <TrashIcon className="text-brand-gray-300 scale-150 hover:text-[#E25858]" onClick={() => removeTask(task.id)} />
             </button>
         </div>
     )

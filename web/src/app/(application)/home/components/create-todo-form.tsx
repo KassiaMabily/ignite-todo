@@ -8,15 +8,16 @@ import { AxiosError } from "axios";
 import { getErrors } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import api from "@/lib/axios";
+import { Dispatch, SetStateAction } from "react";
 
 const CreateTodoFormSchema = z.object({
-    title: z.string().email({message: "E-mail inválido!"}),
+    title: z.string(),
     scheduleAt: z.date().min(new Date(), { message: "Favor escolher uma data futura!"}).optional(),
 })
 
 type CreateTodoFormInputs = z.infer<typeof CreateTodoFormSchema>
 
-export function CreateTodoForm(){
+export function CreateTodoForm({ addTask }: ICreateTodoFormProps){
     const { toast } = useToast();
 
     const {
@@ -36,6 +37,8 @@ export function CreateTodoForm(){
                 "title": title,
                 "done": false
             })
+
+            addTask(state => [data.data, ...state])
 
             reset();
         } catch (error) {
@@ -65,4 +68,8 @@ export function CreateTodoForm(){
             </button>
         </form>
     )
+}
+
+interface ICreateTodoFormProps {
+    addTask: Dispatch<SetStateAction<ITask[]>>
 }
