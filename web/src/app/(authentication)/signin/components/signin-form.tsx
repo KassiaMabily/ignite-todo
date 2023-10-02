@@ -20,6 +20,7 @@ import {
     AlertTitle,
   } from "@/components/ui/alert"
 import { setCookie } from "nookies"
+import Link from "next/link"
 
 interface SignInFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -115,6 +116,9 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
                     </Button>
                 </div>
             </form>
+            <div className="text-sm text-muted-foreground">
+                Ainda não possui conta? <span className="underline"><Link href="/signup">Cadastre-se aqui</Link></span>
+            </div>
         </div>
     )
 }

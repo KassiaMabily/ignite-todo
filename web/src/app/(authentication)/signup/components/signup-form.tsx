@@ -21,6 +21,7 @@ import {
     AlertDescription,
     AlertTitle,
 } from "@/components/ui/alert"
+import Link from "next/link"
 
 interface SignUpFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -105,6 +106,10 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                     </Button>
                 </div>
             </form>
+
+            <div className="text-sm text-muted-foreground">
+                Já possui conta? <span className="underline"><Link href="/signin">Entrar</Link></span>
+            </div>
         </div>
     )
 }
