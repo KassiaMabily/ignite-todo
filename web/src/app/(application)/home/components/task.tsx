@@ -1,19 +1,20 @@
 import { Toggle } from "@/components/ui/toggle";
-import { useToast } from "@/components/ui/use-toast";
-import api from "@/lib/axios";
-import { getErrors } from "@/lib/utils";
+import { TodosContext } from "@/contexts/TodoContext";
 import { CheckIcon, TrashIcon } from "@radix-ui/react-icons";
-import { AxiosError } from "axios";
 import classNames from "classnames";
-import { Dispatch, SetStateAction } from "react";
+import { useContextSelector } from "use-context-selector";
 
 interface ITaskProps {
     task: ITask
-    removeTask: (id: string) => void
-    toggleTask: (id: string) => void
 }
 
-export function Task({ task, removeTask, toggleTask}: ITaskProps){
+export function Task({ task }: ITaskProps){
+    const { removeTodo, toggleTodo } = useContextSelector(
+        TodosContext,
+        (context) => {
+            return { removeTodo: context.removeTodo, toggleTodo: context.toggleTodo }
+        },
+    )
 
     return (
         <div className={classNames(
@@ -25,7 +26,7 @@ export function Task({ task, removeTask, toggleTask}: ITaskProps){
             <Toggle
                 variant="outline"
                 data-state={task.done && "on"}
-                onPressedChange={() => toggleTask(task.id)}
+                onPressedChange={() => toggleTodo(task.id)}
             >
                 {
                     task.done && <CheckIcon className="h-4 w-4 text-white" />
@@ -58,7 +59,7 @@ export function Task({ task, removeTask, toggleTask}: ITaskProps){
 
             </div>
             <button>
-                <TrashIcon className="text-brand-gray-300 scale-150 hover:text-[#E25858]" onClick={() => removeTask(task.id)} />
+                <TrashIcon className="text-brand-gray-300 scale-150 hover:text-[#E25858]" onClick={() => removeTodo(task.id)} />
             </button>
         </div>
     )
