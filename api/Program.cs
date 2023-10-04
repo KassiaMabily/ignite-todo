@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using System.Text.Json.Serialization;
 using api.Data;
@@ -10,6 +11,13 @@ using Microsoft.OpenApi.Models;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+    options.HttpsPort = 5001;
+});
+
 ConfigureAuthentication(builder);
 ConfigureMvc(builder);
 ConfigureServices(builder);
@@ -26,12 +34,16 @@ LoadConfiguration(app);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Challenge V1");
+        c.RoutePrefix = string.Empty;
+    });
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors(MyAllowSpecificOrigins);
+
+app.UseRouting();
 
 app.UseAuthorization();
 
