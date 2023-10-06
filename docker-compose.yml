@@ -12,6 +12,29 @@ services:
       - "1433:1433"
   api:
     image: ${DOCKER_REGISTRY-}api
+    container_name: api
     build:
       context: .
       dockerfile: api/Dockerfile
+    depends_on:
+      - sqlserver
+  web:
+    image: ${DOCKER_REGISTRY-}web
+    container_name: web
+    build:
+      context: ./web #if your Dockerfile is not at the same level change the path here (./frontend)
+      target: dev
+    restart: always
+    command: yarn dev
+    env_file:
+      - ./web/.env
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - 3000:3000
+    depends_on:
+      - api

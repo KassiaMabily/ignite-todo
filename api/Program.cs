@@ -30,6 +30,8 @@ ConfigureSwagger(builder);
 var app = builder.Build();
 LoadConfiguration(app);
 
+DatabaseManagement.MigrationInitialisation(app);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

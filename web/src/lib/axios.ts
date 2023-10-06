@@ -1,8 +1,12 @@
 import axios from 'axios'
 import { parseCookies } from 'nookies'
+const https = require('https');
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false
+  })
 })
 
 api.interceptors.request.use((config) => {
