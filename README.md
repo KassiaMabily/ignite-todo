@@ -8,7 +8,7 @@
 ## 💻 Overview
 This application was developed as challenge of Ignite program by RocketSeat. The ToDo app is a simple example of a web application to control tasks based on a design created by RocketSeat.
 
-[![Design Figma]][https://www.figma.com/file/TUc2b4qnq5V9smabwasppc/ToDo-List?type=design&node-id=101%3A96&mode=design&t=cXcUzPSS6esxp5Vc-1]
+[![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/file/TUc2b4qnq5V9smabwasppc/ToDo-List?type=design&node-id=101%3A96&mode=design&t=cXcUzPSS6esxp5Vc-1)
 
 ## ✅ Features
 
